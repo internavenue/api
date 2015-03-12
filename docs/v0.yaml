@@ -383,7 +383,6 @@ paths:
         - name: filter
           in: query
           type: string
-      tags: []
     post:
       summary: Create employer
       description: Create employer
@@ -426,7 +425,6 @@ paths:
           in: body
           schema:
             $ref: "#/definitions/EmployerModel"
-      tags: []
   "/employers/{employer_id}/messages":
     post:
       summary: Send employer a message
@@ -551,7 +549,6 @@ paths:
         - name: employer_id
           in: path
           type: string
-      tags: []
     post:
       summary: Follow an employer
       description: Follow an employer
@@ -565,7 +562,6 @@ paths:
         - name: candidate_id
           in: query
           type: string
-      tags: []
   "/employers/{employer_id}/followers/{candidate_id}":
     delete:
       summary: Unfollow employer
@@ -580,7 +576,6 @@ paths:
         - name: candidate_id
           in: path
           type: string
-      tags: []
   "/employers/{employer_id}/invoices":
     get:
       summary: List invoice
@@ -596,7 +591,6 @@ paths:
         - name: employer_id
           in: path
           type: string
-      tags: []
   "/opportunities":
     get:
       summary: List/search opportunity
@@ -624,7 +618,6 @@ paths:
         - name: filter
           in: query
           type: string
-      tags: []
     post:
       summary: Create opportunity
       description: Create opportunity
@@ -638,7 +631,6 @@ paths:
           in: body
           schema:
             $ref:  "#/definitions/OpportunityModel"
-      tags: []
   "/opportunities/{opportunity_id}":
     get:
       summary: Get specific opportunity.
@@ -666,7 +658,6 @@ paths:
           in: body
           schema:
             $ref: "#/definitions/OpportunityModel"
-      tags: []
   "/opportunities/{opportunity_id}/apply":
     post:
       summary: Apply to an opportunity
@@ -718,7 +709,6 @@ paths:
         - name: filter
           in: query
           type: string
-      tags: []
   "/packages/{package_id}/purchase":
     post:
       summary: Purchase a package
@@ -733,7 +723,6 @@ paths:
         - name: quantity
           in: query
           type: integer
-      tags: []
   "/skills":
     get:
       summary: List/search skill
@@ -761,7 +750,6 @@ paths:
         - name: filter
           in: query
           type: string
-      tags: []
     post:
       summary: Add new skill
       description: Add new skill
@@ -773,7 +761,6 @@ paths:
           in: body
           schema:
             $ref: "#/definitions/SkillModel"
-      tags: []
   "/courses":
     get:
       summary: List/search course
@@ -801,7 +788,6 @@ paths:
         - name: filter
           in: query
           type: string
-      tags: []
     post:
       summary: Add new course
       description: Add new course
@@ -813,7 +799,6 @@ paths:
           in: body
           schema:
             $ref: "#/definitions/CourseModel"
-      tags: []
   "/schools":
     get:
       summary: List/search school
@@ -841,7 +826,6 @@ paths:
         - name: filter
           in: query
           type: string
-      tags: []
     post:
       summary: Add new school
       description: Add new school
@@ -853,7 +837,6 @@ paths:
           in: body
           schema:
             $ref: "#/definitions/SchoolModel"
-      tags: []
   "/locations":
     get:
       summary: List/search location
@@ -881,7 +864,6 @@ paths:
         - name: filter
           in: query
           type: string
-      tags: []
     post:
       summary: Add new location
       description: Add new location
@@ -992,58 +974,125 @@ definitions:
         type: string
   NotificationModel:
     required:
-      - Placeholder
+      - ID
+      - Type
+      - Content
+      - CreatedOn
     properties:
-      Placeholder:
+      ID:
         type: string
+      Type:
+        type: string
+      Content:
+        type: string
+      CreatedOn:
+        type: dateTime
+      Seen:
+        type: boolean
   SkillModel:
     required:
-      - Placeholder
+      - ID
+      - Name
     properties:
-      Placeholder:
+      ID:
+        type: string
+      Name:
         type: string
   CourseModel:
     required:
-      - Placeholder
+      - ID
+      - Name
     properties:
-      Placeholder:
+      ID:
+        type: string
+      Name:
         type: string
   SchoolModel:
     required:
-      - Placeholder
+      - ID
+      - Name
     properties:
-      Placeholder:
+      ID:
+        type: string
+      Name:
         type: string
   LocationModel:
     required:
-      - Placeholder
+      - ID
+      - Name
     properties:
-      Placeholder:
+      ID:
+        type: string
+      Name:
         type: string
   LanguageModel:
     required:
-      - Placeholder
+      - ID
+      - Code
+      - Title
     properties:
-      Placeholder:
+      ID:
+        type: string
+      Code:
+        type: string
+      Title:
         type: string
   PackageModel:
     required:
-      - Placeholder
+      - ID
+      - Name
+      - Price
+      - Interval
     properties:
-      Placeholder:
+      ID:
         type: string
+      Name:
+        type: string
+      Description:
+        type: string
+      Price:
+        type: integer
+      Interval:
+        type: integer
+      EligibleFor:
+        type: integer
   MessageModel:
     required:
-      - Placeholder
+      - ID
+      - Content
+      - CreatedOn
+      - SenderID
+      - Seen
     properties:
-      Placeholder:
+      ID:
         type: string
+      Content:
+        type: string
+      CreatedOn:
+        type: dateTime
+      SenderID:
+        type: string
+      Seen:
+        type: boolean
   InvoiceModel:
     required:
-      - Placeholder
+      - ID
+      - EmployerID
+      - PackageID
+      - Quantity
+      - Total
     properties:
-      Placeholder:
+      ID:
         type: string
+      EmployerID:
+        type: string
+      PackageID:
+        type: string
+      Quantity:
+        type: string
+      Total:
+        type: number
+        format: float
   ErrorModel:
     required:
       - Code
