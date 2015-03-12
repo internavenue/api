@@ -1,0 +1,1039 @@
+swagger: "2.0"
+info:
+  version: 0.0.1a
+  title: AuthService API
+basePath: /v0
+schemes:
+  - http
+  - https
+security:
+  - accessCode: []
+  - internalApiKey: []
+paths:
+  "/signup":
+    post:
+      parameters:
+        - name: credential
+          in: body
+          description: user credential 
+          required: true
+          schema:
+            $ref: "#/definitions/CredentialModel"
+      description: Returns user created credential
+      summary: register
+      responses:
+        "200":
+          description: credential response
+          schema:
+            $ref: "#/definitions/CredentialModel"
+        default:
+          description: error payload
+          schema:
+            $ref: "#/definitions/ErrorModel"
+  "/access_token":
+    post:
+      parameters:
+        - name: account
+          in: query
+          description: user login email
+          required: true
+          type: string
+        - name: password
+          in: query
+          description: user login password
+          required: true
+          type: string
+      description: Returns user access token
+      summary: signin
+      responses:
+        "200":
+          description: token response
+          schema:
+            $ref: "#/definitions/TokenModel"
+        default:
+          description: error payload
+          schema:
+            $ref: "#/definitions/ErrorModel"
+  "/password_reset":
+    post:
+      parameters:
+        - name: account
+          in: query
+          required: true
+          type: string
+      responses:
+        "200":
+          description: password reset request make
+        default:
+          description: error payload
+          schema:
+            $ref: "#/definitions/ErrorModel"
+  "/users/{user_id}":
+    get:
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          type: string
+      description: Returns user basic information
+      summary: Get user information
+      security:
+        - accessCode: []
+        - internalApiKey: []
+      responses:
+        "200":
+          description: user information response
+          schema:
+            $ref: "#/definitions/UserModel"
+        default:
+          description: error payload
+          schema:
+            $ref: "#/definitions/ErrorModel"
+  "/users/{user_id}/activate":
+    get:
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          type: string
+        - name: code
+          in: query
+          required: true
+          type: string
+      responses:
+        default:
+          description: error payload
+          schema:
+            $ref: "#/definitions/ErrorModel"
+  "/candidates":
+    get:
+      summary: List/search candidate
+      parameters:
+        - name: fields
+          in: query
+          collectionFormat: csv
+          type: array
+          items:
+            type: string
+        - name: limit
+          in: query
+          type: string
+        - name: offset
+          in: query
+          type: string
+        - name: filter
+          in: query
+          type: string
+      responses:
+        "200":
+          description: success payload
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/CandidateModel"
+        default:
+          description: error payload
+          schema:
+            $ref: "#/definitions/ErrorModel"
+    post:
+      summary: Create candidate
+      parameters:
+        - name: candidate
+          in: body
+          schema:
+            $ref: "#/definitions/CandidateModel"
+      responses:
+        200:
+          description: success payload with completed candidate detail.
+          schema:
+            $ref: "#/definitions/CandidateModel"
+        default:
+          description: error payload
+          schema:
+            $ref: "#/definitions/ErrorModel"
+  "/candidates/{candidate_id}":
+    get:
+      summary: Get candidate profile
+      parameters:
+        - name: candidate_id
+          in: path
+          type: string
+      responses:
+        200:
+          description: success payload with completed candidate detail.
+          schema:
+            $ref: "#/definitions/CandidateModel"
+        default:
+          description: error payload
+          schema:
+            $ref: "#/definitions/ErrorModel"
+    patch:
+      summary: update candidate profile
+      parameters:
+        - name: candidate_id
+          in: path
+          type: string
+      responses:
+        200:
+          description: success payload with completed candidate detail.
+          schema:
+            $ref: "#/definitions/CandidateModel"
+        default:
+          description: error payload
+          schema:
+            $ref: "#/definitions/ErrorModel"
+  "/candidates/{candidate_id}/export":
+    get:
+      summary: Export candidate profile as expexted format
+      parameters:
+        - name: candidate_id
+          in: path
+          type: string
+        - name: format
+          in: query
+          type: string
+      responses:
+        200:
+          description: success payload with formated profile.
+        default:
+          description: error payload
+          schema:
+            $ref: "#/definitions/ErrorModel"
+  "/candidates/{candidate_id}/cv":
+    get:
+      summary: Download candidate cv
+      parameters:
+        - name: candidate_id
+          in: path
+          type: string
+      responses:
+        200:
+          description: success payload with candiate cv
+        default:
+          description: error payload
+          schema:
+            $ref: "#/definitions/ErrorModel"
+  "/candidates/{candidate_id}/archive":
+    post:
+      summary: Archive candidate
+      parameters:
+        - name: candidate_id
+          in: path
+          type: string
+      responses:
+        200:
+          description: success payload
+        default:
+          description: error payload
+          schema:
+            $ref: "#/definitions/ErrorModel"
+  "/candidates/{candidate_id}/status":
+    post:
+      summary: Set active/inactive candidate
+      parameters:
+        - name: candidate_id
+          in: path
+          type: string
+        - name: active
+          in: query
+          type: boolean
+      responses:
+        200:
+          description: success payload
+        default:
+          description: error payload
+          schema:
+            $ref: "#/definitions/ErrorModel"
+  "/candidates/{candidate_id}/messages":
+    post:
+      summary: Send candidate a message
+      parameters:
+        - name: candidate_id
+          in: path
+          type: string
+        - name: message
+          in: body
+          schema:
+            $ref: "#/definitions/MessageModel" 
+      responses:
+        200:
+          description: success payload
+        default:
+          description: error payload
+          schema:
+            $ref: "#/definitions/ErrorModel"        
+    get:
+      summary: List message
+      parameters:
+        - name: candidate_id
+          in: path
+          type: string
+        - name: unread
+          in: query
+          type: boolean
+        - name: from
+          in: query
+          type: string
+        - name: limit
+          in: query
+          type: integer
+      responses:
+        200:
+          description: success payload
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/MessageModel"
+        default:
+          description: error payload
+          schema:
+            $ref: "#/definitions/ErrorModel"         
+  "/candidates/{candidate_id}/messages/{message_id}":
+    get:
+      summary: read message detail
+      parameters:
+        - name: candidate_id
+          in: path
+          type: string       
+        - name: message_id
+          in: path
+          type: string
+      responses:
+        200:
+          description: success payload
+          schema:
+            $ref: "#/definitions/MessageModel"
+        default:
+          description: error payload
+          schema:
+            $ref: "#/definitions/ErrorModel"  
+  "/candidates/{candidate_id}/notifications":
+    get:
+      summary: List notification
+      parameters:
+        - name: candidate_id
+          in: path
+          type: string
+        - name: unread
+          in: query
+          type: boolean
+        - name: from
+          in: query
+          type: string
+        - name: limit
+          in: query
+          type: integer
+      responses:
+        200:
+          description: success payload
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/NotificationModel"
+        default:
+          description: error payload
+          schema:
+            $ref: "#/definitions/ErrorModel"         
+  "/candidates/{candidate_id}/notifications/{notification_id}":
+    get:
+      summary: read notificaiton detail
+      parameters:
+        - name: candidate_id
+          in: path
+          type: string       
+        - name: notification_id
+          in: path
+          type: string
+      responses:
+        200:
+          description: success payload
+          schema:
+            $ref: "#/definitions/NotificationModel"
+        default:
+          description: error payload
+          schema:
+            $ref: "#/definitions/ErrorModel"    
+  "/employers":
+    get:
+      summary: List/search employer
+      responses:
+        "200":
+          description: success payload
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/EmployerModel"
+        default:
+          description: error payload
+          schema:
+            $ref: "#/definitions/ErrorModel"
+      parameters:
+        - name: fields
+          in: query
+          collectionFormat: csv
+          type: array
+          items:
+            type: string
+        - name: limit
+          in: query
+          type: string
+        - name: offset
+          in: query
+          type: string
+        - name: filter
+          in: query
+          type: string
+      tags: []
+    post:
+      summary: Create employer
+      description: Create employer
+      responses:
+        200:
+          description: success payload
+          schema:
+            $ref: "#/definitions/EmployerModel"
+      parameters:
+        - name: employer
+          in: body
+          schema:
+            $ref: "#/definitions/EmployerModel"
+  "/employers/{employer_id}":
+    get:
+      summary: Get specific employer
+      description: Get specific employer
+      responses:
+        200:
+          description: success payload
+          schema:
+            $ref: "#/definitions/EmployerModel"
+      parameters:
+        - name: employer_id
+          in: path
+          type: string
+  "/employers/{employer_id}/messages":
+    post:
+      summary: Send employer a message
+      parameters:
+        - name: employer_id
+          in: path
+          type: string
+        - name: message
+          in: body
+          schema:
+            $ref: "#/definitions/MessageModel" 
+      responses:
+        200:
+          description: success payload
+        default:
+          description: error payload
+          schema:
+            $ref: "#/definitions/ErrorModel"        
+    get:
+      summary: List message
+      parameters:
+        - name: employer_id
+          in: path
+          type: string
+        - name: unread
+          in: query
+          type: boolean
+        - name: from
+          in: query
+          type: string
+        - name: limit
+          in: query
+          type: integer
+      responses:
+        200:
+          description: success payload
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/MessageModel"
+        default:
+          description: error payload
+          schema:
+            $ref: "#/definitions/ErrorModel"         
+  "/employers/{employer_id}/messages/{message_id}":
+    get:
+      summary: read message detail
+      parameters:
+        - name: employer_id
+          in: path
+          type: string       
+        - name: message_id
+          in: path
+          type: string
+      responses:
+        200:
+          description: success payload
+          schema:
+            $ref: "#/definitions/MessageModel"
+        default:
+          description: error payload
+          schema:
+            $ref: "#/definitions/ErrorModel"  
+  "/employers/{employer_id}/notifications":
+    get:
+      summary: List notification
+      parameters:
+        - name: employer_id
+          in: path
+          type: string
+        - name: unread
+          in: query
+          type: boolean
+        - name: from
+          in: query
+          type: string
+        - name: limit
+          in: query
+          type: integer
+      responses:
+        200:
+          description: success payload
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/NotificationModel"
+        default:
+          description: error payload
+          schema:
+            $ref: "#/definitions/ErrorModel"         
+  "/employers/{employer_id}/notifications/{notification_id}":
+    get:
+      summary: read notification detail
+      parameters:
+        - name: employer_id
+          in: path
+          type: string       
+        - name: notification_id
+          in: path
+          type: string
+      responses:
+        200:
+          description: success payload
+          schema:
+            $ref: "#/definitions/NotificationModel"
+        default:
+          description: error payload
+          schema:
+            $ref: "#/definitions/ErrorModel" 
+  "/employers/{employer_id}/followers":
+    get:
+      summary: List employser's followers
+      description: List employser's followers
+      responses:
+        200:
+          description: success payload
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/CandidateModel"
+      parameters:
+        - name: employer_id
+          in: path
+          type: string
+      tags: []
+    post:
+      summary: Follow an employer
+      description: Follow an employer
+      responses:
+        200:
+          description: success payload
+      parameters:
+        - name: employer_id
+          in: path
+          type: string
+        - name: candidate_id
+          in: query
+          type: string
+      tags: []
+  "/employers/{employer_id}/followers/{candidate_id}":
+    delete:
+      summary: Unfollow employer
+      description: Unfollow employer
+      responses:
+        200:
+          description: success payload
+      parameters:
+        - name: employer_id
+          in: path
+          type: string
+        - name: candidate_id
+          in: path
+          type: string
+      tags: []
+  "/employers/{employer_id}/invoices":
+    get:
+      summary: List invoice
+      description: List invoice
+      responses:
+        200:
+          description: success paaload
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/InvoiceModel"
+      parameters:
+        - name: employer_id
+          in: path
+          type: string
+      tags: []
+  "/opportunities":
+    get:
+      summary: List/search opportunity
+      description: List/search opportunity
+      responses:
+        200:
+          description: success payload
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/OpportunityModel"
+      parameters:
+        - name: fields
+          in: query
+          collectionFormat: csv
+          type: array
+          items:
+            type: string
+        - name: limit
+          in: query
+          type: string
+        - name: offset
+          in: query
+          type: string
+        - name: filter
+          in: query
+          type: string
+      tags: []
+    post:
+      summary: Create opportunity
+      description: Create opportunity
+      responses:
+        200:
+          description: success payload
+          schema:
+            $ref: "#/definitions/OpportunityModel"
+      parameters:
+        - name: opportunity
+          in: body
+          schema:
+            $ref:  "#/definitions/OpportunityModel"
+      tags: []
+  "/opportunities/{opportunity_id}":
+    get:
+      summary: Get specific opportunity.
+      description: Get specific opportunity.
+      responses:
+        200:
+          description: success payload
+          schema:
+            $ref: "#/definitions/OpportunityModel"
+      parameters:
+        - name: opportunity_id
+          in: path
+          type: string
+    patch:
+      summary: Update opportunity
+      description: Update opportunity
+      responses:
+        200:
+          description: success payload
+      parameters:
+        - name: opportunity_id
+          in: path
+          type: string
+        - name: opportunity
+          in: body
+          schema:
+            $ref: "#/definitions/OpportunityModel"
+      tags: []
+  "/opportunities/{opportunity_id}/apply":
+    post:
+      summary: Apply to an opportunity
+      responses:
+        200:
+          description: success payload
+      parameters:
+        - name: opportunity_id
+          in: path
+          type: string
+  "/opportunities/{opportunity_id}/invite":
+    post:
+      summary: Invite candidate(s) apply to an opportunity
+      responses:
+        200:
+          description: success payload
+      parameters:
+        - name: opportunity_id
+          in: path
+          type: string
+        - name: candidates
+          in: query
+          type: array
+          items:
+            type: string
+          collectionFormat: csv
+  "/packages":
+    get:
+      summary: List package
+      description: List package
+      responses:
+        200:
+          description: success payload
+          schema:
+            $ref: "#/definitions/PackageModel" 
+      parameters:
+        - name: fields
+          in: query
+          collectionFormat: csv
+          type: array
+          items:
+            type: string
+        - name: limit
+          in: query
+          type: string
+        - name: offset
+          in: query
+          type: string
+        - name: filter
+          in: query
+          type: string
+      tags: []
+  "/packages/{package_id}/purchase":
+    post:
+      summary: Purchase a package
+      description: Purchase apackage
+      responses:
+        200:
+          description: success payload
+      parameters:
+        - name: package_id
+          in: path
+          type: string
+        - name: quantity
+          in: query
+          type: integer
+      tags: []
+  "/skills":
+    get:
+      summary: List/search skill
+      description: List/search skill
+      responses:
+        200:
+          description: success payload
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/SkillModel"
+      parameters:
+        - name: fields
+          in: query
+          collectionFormat: csv
+          type: array
+          items:
+            type: string
+        - name: limit
+          in: query
+          type: string
+        - name: offset
+          in: query
+          type: string
+        - name: filter
+          in: query
+          type: string
+      tags: []
+    post:
+      summary: Add new skill
+      description: Add new skill
+      responses:
+        200:
+          description: success payload
+      parameters:
+        - name: skill
+          in: body
+          schema:
+            $ref: "#/definitions/SkillModel"
+      tags: []
+  "/courses":
+    get:
+      summary: List/search course
+      description: List/search course
+      responses:
+        200:
+          description: success payload
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/CourseModel"
+      parameters:
+        - name: fields
+          in: query
+          collectionFormat: csv
+          type: array
+          items:
+            type: string
+        - name: limit
+          in: query
+          type: string
+        - name: offset
+          in: query
+          type: string
+        - name: filter
+          in: query
+          type: string
+      tags: []
+    post:
+      summary: Add new course
+      description: Add new course
+      responses:
+        200:
+          description: success payload
+      parameters:
+        - name: course
+          in: body
+          schema:
+            $ref: "#/definitions/CourseModel"
+      tags: []
+  "/schools":
+    get:
+      summary: List/search school
+      description: List/search school
+      responses:
+        200:
+          description: success payload
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/SchoolModel"
+      parameters:
+        - name: fields
+          in: query
+          collectionFormat: csv
+          type: array
+          items:
+            type: string
+        - name: limit
+          in: query
+          type: string
+        - name: offset
+          in: query
+          type: string
+        - name: filter
+          in: query
+          type: string
+      tags: []
+    post:
+      summary: Add new school
+      description: Add new school
+      responses:
+        200:
+          description: success payload
+      parameters:
+        - name: school
+          in: body
+          schema:
+            $ref: "#/definitions/SchoolModel"
+      tags: []
+  "/locations":
+    get:
+      summary: List/search location
+      description: List/search location
+      responses:
+        200:
+          description: success payload
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/LocationModel"
+      parameters:
+        - name: fields
+          in: query
+          collectionFormat: csv
+          type: array
+          items:
+            type: string
+        - name: limit
+          in: query
+          type: string
+        - name: offset
+          in: query
+          type: string
+        - name: filter
+          in: query
+          type: string
+      tags: []
+    post:
+      summary: Add new location
+      description: Add new location
+      responses:
+        200:
+          description: success payload
+      parameters:
+        - name: location
+          in: body
+          schema:
+            $ref: "#/definitions/LocationModel"
+      tags: []      
+  "/languages":
+    get:
+      summary: List/search language
+      description: List/search language
+      responses:
+        200:
+          description: success payload
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/LanguageModel"
+      parameters:
+        - name: fields
+          in: query
+          collectionFormat: csv
+          type: array
+          items:
+            type: string
+        - name: limit
+          in: query
+          type: string
+        - name: offset
+          in: query
+          type: string
+        - name: filter
+          in: query
+          type: string
+securityDefinitions:
+  accessCode:
+    type: oauth2
+    scopes: {}
+    flow: password
+    tokenUrl: "#/paths/access_token"
+  internalApiKey:
+    type: apiKey
+    in: header
+    name: X-Authentication
+definitions:
+  CredentialModel:
+    required:
+      - Account
+      - Password
+      - PasswordRepeat
+    properties:
+      Type:
+        type: string
+      Account:
+        type: string
+      Password:
+        type: string
+      PasswordRepeat:
+        type: string
+      Activated:
+        type: boolean
+      SendMail:
+        type: boolean
+  TokenModel:
+    required:
+      - AccessToken
+      - Expires
+    properties:
+      AccessToken:
+        type: string
+      Expires:
+        type: string
+  UserModel:
+    required:
+      - ID
+      - Email
+    properties:
+      ID:
+        type: string
+      Email:
+        type: string
+      Permissions:
+        type: array
+        items:
+          type: string
+  CandidateModel:
+    required:
+      - Placeholder
+    properties:
+      Placeholder:
+        type: string
+  EmployerModel:
+    required:
+      - Placeholder
+    properties:
+      Placeholder:
+        type: string
+  OpportunityModel:
+    required:
+      - Placeholder
+    properties:
+      Placeholder:
+        type: string
+  NotificationModel:
+    required:
+      - Placeholder
+    properties:
+      Placeholder:
+        type: string
+  SkillModel:
+    required:
+      - Placeholder
+    properties:
+      Placeholder:
+        type: string
+  CourseModel:
+    required:
+      - Placeholder
+    properties:
+      Placeholder:
+        type: string
+  SchoolModel:
+    required:
+      - Placeholder
+    properties:
+      Placeholder:
+        type: string
+  LocationModel:
+    required:
+      - Placeholder
+    properties:
+      Placeholder:
+        type: string
+  LanguageModel:
+    required:
+      - Placeholder
+    properties:
+      Placeholder:
+        type: string
+  PackageModel:
+    required:
+      - Placeholder
+    properties:
+      Placeholder:
+        type: string
+  MessageModel:
+    required:
+      - Placeholder
+    properties:
+      Placeholder:
+        type: string
+  InvoiceModel:
+    required:
+      - Placeholder
+    properties:
+      Placeholder:
+        type: string
+  ErrorModel:
+    required:
+      - Code
+      - Message
+    properties:
+      Code:
+        type: integer
+        format: int32
+      Message:
+        type: string
