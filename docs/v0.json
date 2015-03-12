@@ -145,7 +145,7 @@
             }
         },
         "/users/{user_id}/activate": {
-            "get": {
+            "post": {
                 "parameters": [
                     {
                         "name": "user_id",
@@ -663,6 +663,33 @@
                         "type": "string"
                     }
                 ]
+            },
+            "patch": {
+                "summary": "Update employer",
+                "description": "Update employer",
+                "responses": {
+                    "200": {
+                        "description": "success payload",
+                        "schema": {
+                            "$ref": "#/definitions/EmployerModel"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "employer_id",
+                        "in": "path",
+                        "type": "string"
+                    },
+                    {
+                        "name": "employer",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/EmployerModel"
+                        }
+                    }
+                ],
+                "tags": []
             }
         },
         "/employers/{employer_id}/messages": {
