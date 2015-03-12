@@ -986,7 +986,8 @@ definitions:
       Content:
         type: string
       CreatedOn:
-        type: dateTime
+        type: string
+        format: date-time
       Seen:
         type: boolean
   SkillModel:
@@ -1069,7 +1070,8 @@ definitions:
       Content:
         type: string
       CreatedOn:
-        type: dateTime
+        type: string
+        format: date-time
       SenderID:
         type: string
       Seen:
