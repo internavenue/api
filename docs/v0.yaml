@@ -1,7 +1,7 @@
 swagger: "2.0"
 info:
   version: 0.0.1a
-  title: AuthService API
+  title: Intern Avenue API
 basePath: /v0
 schemes:
   - http
@@ -944,22 +944,214 @@ definitions:
   UserModel:
     required:
       - ID
-      - Email
+      - PrimaryEmail
     properties:
       ID:
         type: string
-      Email:
+      PrimaryEmail:
         type: string
+      Emails:
+        type: array
+        items:
+          $ref: "#/definitions/EmailModel"
+      LastLogin:
+        type: string
+        format: date-time
+      LastSeen:
+        type: string
+        format: date-time
+      LastUpdate:
+        type: string
+        format: date-time
       Permissions:
         type: array
         items:
           type: string
+  EmailModel:
+    properties:
+      Address:
+        type: string
+      Label:
+        type: string
+      Verified:
+        type: boolean
   CandidateModel:
     required:
-      - Placeholder
+      - ID
     properties:
-      Placeholder:
+      ID:
         type: string
+      FirstName:
+        type: string
+      MiddleName:
+        type: string
+      LastName:
+        type: string
+      FormatedName:
+        type: string
+      Gender:
+        type: integer
+      SexualOrientation:
+        type: integer
+      ShowProfileImage:
+        type: boolean
+      Educations:
+        type: array
+        items:
+          $ref: "#/definitions/EducationModel"
+      Resources:
+        type: array
+        items:
+          $ref: "#/definitions/KeyValModel"
+        description: storing files URL
+      ProfileImageURLs:
+        type: array
+        items:
+          $ref: "#/definitions/KeyValModel"
+      Eligibles:
+        type: array
+        items:
+          $ref: "#/definitions/LocationModel"
+      Addresses:
+        type: array
+        items:
+          $ref: "#/definitions/AddressModel"
+      Phones:
+        type: array
+        items:
+          $ref: "#/definitions/KeyValModel"
+      Languages:
+        type: array
+        items:
+          $ref: "#/definitions/LanguageModel"
+      Skills:
+        type: array
+        items:
+          $ref: "#/definitions/SkillModel"
+      Experiences:
+        type: array
+        items:
+          $ref: "#/definitions/ExperienceModel"
+      Reviews:
+        type: array
+        items:
+          $ref: "#/definitions/ReviewModel"
+      Awards:
+        type: array
+        items:
+          $ref: "#/definitions/AwardModel"
+      Availabilities:
+        type: array
+        items:
+          $ref: "#/definitions/AvailabilityModel"
+  EducationModel:
+    properties:
+      Level:
+        type: string
+      Areas:
+        type: array
+        items:
+          type: string
+      School:
+        schema:
+          $ref: "#/definitions/SchoolModel"
+      Courses:
+        type: array
+        items:
+          $rerf: "#/definitions/CourseModel"
+      Attending:
+        type: boolean
+      Begin:
+        type: string
+        format: date
+      End:
+        type: string
+        format: date
+  AvailabilityModel:
+    properties:
+      Begin:
+        type: string
+        format: date
+      End:
+        type: string
+        format: date
+      FullTime:
+        type: boolean
+  AwardModel:
+    properties:
+      Title:
+        type: string
+      Content:
+        type: string
+      Type:
+        type: string
+      URL:
+        type: string
+      Begin:
+        type: string
+        format: date
+      End:
+        type: string
+        format: date
+  ExperienceModel:
+    properties:
+      Title:
+        type: string
+      Type:
+        type: string
+      Sector:
+        type: string
+      Employer:
+        schema:
+          $ref: "#/definitions/EmployerModel"
+      Begin:
+        type: string
+        format: date
+      End:
+        type: string
+        format: date
+      URL:
+        type: string
+      Reference:
+        schema:
+          $ref: "#/definitions/ReferenceModel"
+  ReviewModel:
+    properties:
+      Employer:
+        schema:
+          $ref: "#/definitions/EmployerModel"
+      Rating:
+        type: integer
+      UpdatedOn:
+        type: string
+        format: date-time
+      Comment:
+        type: string
+  ReferenceModel:
+    properties:
+      Name:
+        type: string
+      Email:
+        type: string
+      Position:
+        type: string
+  KeyValModel:
+    properties:
+      Key:
+        type: string
+      Val:
+        type: string
+  AddressModel:
+    properties:
+      AddressLine:
+        type: string
+      Town:
+        type: string
+      Postcode:
+        type: string
+      Location:
+        schema:
+          $ref: "#/definitions/LocationModel"
   EmployerModel:
     required:
       - Placeholder
@@ -999,6 +1191,8 @@ definitions:
         type: string
       Name:
         type: string
+      Proficiency:
+        type: integer
   CourseModel:
     required:
       - ID
@@ -1017,6 +1211,18 @@ definitions:
         type: string
       Name:
         type: string
+      Addresses:
+        type: array
+        items:
+          $ref: "#/definitions/AddressModel"
+      Phones:
+        type: array
+        items:
+          $ref: "#/definitions/KeyValModel"
+      Emails:
+        type: array
+        items:
+          $ref: "#/definitions/KeyValModel"
   LocationModel:
     required:
       - ID
@@ -1026,6 +1232,9 @@ definitions:
         type: string
       Name:
         type: string
+      Level:
+        type: integer
+        description: 0 for earth, 1 for continent...
   LanguageModel:
     required:
       - ID
