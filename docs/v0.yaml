@@ -135,22 +135,6 @@ paths:
           description: error payload
           schema:
             $ref: "#/definitions/ErrorModel"
-    post:
-      summary: Create candidate
-      parameters:
-        - name: candidate
-          in: body
-          schema:
-            $ref: "#/definitions/CandidateModel"
-      responses:
-        200:
-          description: success payload with completed candidate detail.
-          schema:
-            $ref: "#/definitions/CandidateModel"
-        default:
-          description: error payload
-          schema:
-            $ref: "#/definitions/ErrorModel"
   "/candidates/{candidate_id}":
     get:
       summary: Get candidate profile
@@ -403,19 +387,6 @@ paths:
         - name: filter
           in: query
           type: string
-    post:
-      summary: Create employer
-      description: Create employer
-      responses:
-        200:
-          description: success payload
-          schema:
-            $ref: "#/definitions/EmployerModel"
-      parameters:
-        - name: employer
-          in: body
-          schema:
-            $ref: "#/definitions/EmployerModel"
   "/employers/{employer_id}":
     get:
       summary: Get specific employer
