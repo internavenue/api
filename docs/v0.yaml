@@ -353,6 +353,26 @@ paths:
           description: error payload
           schema:
             $ref: "#/definitions/ErrorModel"    
+  "/candidates/{candidate_id}/opportunities/{opportunity_id}/result":
+    put:
+      summary: Create new candidate internship result
+      description: Create new candidate internship result
+      responses:
+        200:
+          description: success playload
+          schema:
+            $ref: "#/definitions/InternshipResultModel" 
+      parameters:
+        - name: candidate_id
+          in: path
+          type: string
+        - name: opportunity_id
+          in: path
+          type: string
+        - name: result
+          in: body
+          schema:
+            $ref: "#/definitions/InternshipResultModel"
   "/employers":
     get:
       summary: List/search employer
@@ -591,6 +611,117 @@ paths:
         - name: employer_id
           in: path
           type: string
+  "/employers/{employer_id}/opportunities":
+    get:
+      summary: List/search employer's opportunity
+      description: List/search opportunity
+      responses:
+        200:
+          description: success payload
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/OpportunityModel"
+      parameters:
+        - name: employer_id
+          in: path
+          type: string
+        - name: fields
+          in: query
+          collectionFormat: csv
+          type: array
+          items:
+            type: string
+        - name: limit
+          in: query
+          type: string
+        - name: offset
+          in: query
+          type: string
+        - name: filter
+          in: query
+          type: string
+    post:
+      summary: Create opportunity
+      description: Create opportunity
+      responses:
+        200:
+          description: success payload
+          schema:
+            $ref: "#/definitions/OpportunityModel"
+      parameters:
+        - name: employer_id
+          in: path
+          type: string
+        - name: opportunity
+          in: body
+          schema:
+            $ref:  "#/definitions/OpportunityModel"  
+  "/employers/{employer_id}/opportunities/{opportunity_id}":
+    get:
+      summary: Get specific opportunity.
+      description: Get specific opportunity.
+      responses:
+        200:
+          description: success payload
+          schema:
+            $ref: "#/definitions/OpportunityModel"
+      parameters:
+        - name: employer_id
+          in: path
+          type: string
+        - name: opportunity_id
+          in: path
+          type: string
+    patch:
+      summary: Update opportunity
+      description: Update opportunity
+      responses:
+        200:
+          description: success payload
+      parameters:
+        - name: employer_id
+          in: path
+          type: string
+        - name: opportunity_id
+          in: path
+          type: string
+        - name: opportunity
+          in: body
+          schema:
+            $ref: "#/definitions/OpportunityModel"
+  "/employers/{employer_id}/opportunities/{opportunity_id}/apply":
+    post:
+      summary: Apply to an opportunity
+      responses:
+        200:
+          description: success payload
+      parameters:
+        - name: employer_id
+          in: path
+          type: string
+        - name: opportunity_id
+          in: path
+          type: string
+  "/employers/{employer_id}/opportunities/{opportunity_id}/invite":
+    post:
+      summary: Invite candidate(s) apply to an opportunity
+      responses:
+        200:
+          description: success payload
+      parameters:
+        - name: employer_id
+          in: path
+          type: string
+        - name: opportunity_id
+          in: path
+          type: string
+        - name: candidates
+          in: query
+          type: array
+          items:
+            type: string
+          collectionFormat: csv  
   "/opportunities":
     get:
       summary: List/search opportunity
@@ -618,72 +749,6 @@ paths:
         - name: filter
           in: query
           type: string
-    post:
-      summary: Create opportunity
-      description: Create opportunity
-      responses:
-        200:
-          description: success payload
-          schema:
-            $ref: "#/definitions/OpportunityModel"
-      parameters:
-        - name: opportunity
-          in: body
-          schema:
-            $ref:  "#/definitions/OpportunityModel"
-  "/opportunities/{opportunity_id}":
-    get:
-      summary: Get specific opportunity.
-      description: Get specific opportunity.
-      responses:
-        200:
-          description: success payload
-          schema:
-            $ref: "#/definitions/OpportunityModel"
-      parameters:
-        - name: opportunity_id
-          in: path
-          type: string
-    patch:
-      summary: Update opportunity
-      description: Update opportunity
-      responses:
-        200:
-          description: success payload
-      parameters:
-        - name: opportunity_id
-          in: path
-          type: string
-        - name: opportunity
-          in: body
-          schema:
-            $ref: "#/definitions/OpportunityModel"
-  "/opportunities/{opportunity_id}/apply":
-    post:
-      summary: Apply to an opportunity
-      responses:
-        200:
-          description: success payload
-      parameters:
-        - name: opportunity_id
-          in: path
-          type: string
-  "/opportunities/{opportunity_id}/invite":
-    post:
-      summary: Invite candidate(s) apply to an opportunity
-      responses:
-        200:
-          description: success payload
-      parameters:
-        - name: opportunity_id
-          in: path
-          type: string
-        - name: candidates
-          in: query
-          type: array
-          items:
-            type: string
-          collectionFormat: csv
   "/packages":
     get:
       summary: List package
@@ -975,6 +1040,14 @@ definitions:
         type: string
       Verified:
         type: boolean
+  SocialAccountModel:
+    properties:
+      Address:
+        type: string
+      Label:
+        type: string
+      Verified:
+        type: boolean
   CandidateModel:
     required:
       - ID
@@ -1015,7 +1088,7 @@ definitions:
       Addresses:
         type: array
         items:
-          $ref: "#/definitions/AddressModel"
+          $ref: "#/definitions/LocationModel"
       Phones:
         type: array
         items:
@@ -1032,10 +1105,6 @@ definitions:
         type: array
         items:
           $ref: "#/definitions/ExperienceModel"
-      Reviews:
-        type: array
-        items:
-          $ref: "#/definitions/ReviewModel"
       Awards:
         type: array
         items:
@@ -1044,6 +1113,14 @@ definitions:
         type: array
         items:
           $ref: "#/definitions/AvailabilityModel"
+      SocialAccounts:
+        type: array
+        items:
+          $ref: "#/definitions/SocialAccountModel"
+      InternshipResults:
+        type: array
+        items:
+          $ref: "#/definitions/InternshipResultModel"
   EducationModel:
     properties:
       Level:
@@ -1141,29 +1218,127 @@ definitions:
         type: string
       Val:
         type: string
-  AddressModel:
+  LocationModel:
     properties:
-      AddressLine:
+      Company:
+       type: string
+      SubBuilding:
         type: string
-      Town:
+      BuildingName:
+        type: string
+      BuildingNumber:
+        type: string
+      PrimaryStreet:
+        type: string
+      SecondaryStreet:
+        type: string
+      PostTown:
+        type: string
+      DependentLocality:
+        type: string
+      DoubleDependentLocality:
+        type: string
+      County:
+        type: string
+      CountryName:
+        type: string
+      PoBox:
         type: string
       Postcode:
-        type: string
-      Location:
-        schema:
-          $ref: "#/definitions/LocationModel"
+        type: string      
+      Latitude:
+        type: number
+        format: float
+      Longitude:
+        type: number
+        format: float
   EmployerModel:
     required:
-      - Placeholder
+      - ID
+      - Name
     properties:
-      Placeholder:
+      ID:
+        type: string
+      Name:
+        type: string
+      Summary:
+        type: string
+      Description:
+        type: string
+      VATNumber:
+        type: string
+      Addresses:
+        type: array
+        items:
+          $ref: "#/definitions/LocationModel"
+      Phones:
+        type: array
+        items:
+          $ref: "#/definitions/KeyValModel"
+      Emails:
+        type: array
+        items:
+          $ref: "#/definitions/KeyValModel"
+      SocialAccounts:
+        type: array
+        items:
+          $ref: "#/definitions/SocialAccountModel"
+      LogoImageURLs:
+        type: array
+        items:
+          $ref: "#/definitions/KeyValModel"
+      Sectors:
+        type: array
+        items:
+          $ref: "#/definitions/SectorModel"
+  SectorModel:
+    properties:
+      ID:
+        type: string
+      Name:
         type: string
   OpportunityModel:
     required:
-      - Placeholder
+      - ID
+      - Name
     properties:
-      Placeholder:
+      ID:
         type: string
+      Name:
+        type: string
+      Description:
+        type: string
+      Status:
+        type: integer
+      Duration:
+        type: integer
+      UpdatedOn:
+        type: string
+        format: date-time
+      Begin:
+        type: string
+        format: date-time
+      End:
+        type: string
+        format: date-time
+      ExternalURL:
+        type: string
+      ExtraEmail:
+        type: string
+  InternshipResultModel:
+    properties:
+      ID:
+        type: string
+      Opportunity:
+        schema:
+          $ref: "#/definitions/OpportunityModel"
+      Status:
+        type: integer
+      Feedback:
+        type: string
+      Review:
+        schema:
+          $ref: "#/definitions/ReviewModel"
   NotificationModel:
     required:
       - ID
@@ -1214,7 +1389,7 @@ definitions:
       Addresses:
         type: array
         items:
-          $ref: "#/definitions/AddressModel"
+          $ref: "#/definitions/LocationModel"
       Phones:
         type: array
         items:
@@ -1223,18 +1398,6 @@ definitions:
         type: array
         items:
           $ref: "#/definitions/KeyValModel"
-  LocationModel:
-    required:
-      - ID
-      - Name
-    properties:
-      ID:
-        type: string
-      Name:
-        type: string
-      Level:
-        type: integer
-        description: 0 for earth, 1 for continent...
   LanguageModel:
     required:
       - ID
@@ -1292,6 +1455,7 @@ definitions:
       - PackageID
       - Quantity
       - Total
+      - Date
     properties:
       ID:
         type: string
@@ -1304,6 +1468,9 @@ definitions:
       Total:
         type: number
         format: float
+      Date:
+        type: string
+        format: date-time
   ErrorModel:
     required:
       - Code
