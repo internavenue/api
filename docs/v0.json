@@ -1538,6 +1538,7 @@
     "definitions": {
         "CredentialModel": {
             "required": [
+                "Type",
                 "Account",
                 "Password",
                 "PasswordRepeat"
@@ -1584,9 +1585,6 @@
             ],
             "properties": {
                 "ID": {
-                    "type": "string"
-                },
-                "PrimaryEmail": {
                     "type": "string"
                 },
                 "Emails": {

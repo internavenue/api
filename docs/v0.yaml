@@ -952,6 +952,7 @@ securityDefinitions:
 definitions:
   CredentialModel:
     required:
+      - Type
       - Account
       - Password
       - PasswordRepeat
@@ -983,8 +984,6 @@ definitions:
       - PrimaryEmail
     properties:
       ID:
-        type: string
-      PrimaryEmail:
         type: string
       Emails:
         type: array
