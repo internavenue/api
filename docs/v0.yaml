@@ -1099,12 +1099,11 @@ definitions:
         items:
           type: string
       School:
-        schema:
-          $ref: "#/definitions/SchoolModel"
+        $ref: "#/definitions/SchoolModel"
       Courses:
         type: array
         items:
-          $rerf: "#/definitions/CourseModel"
+          $ref: "#/definitions/CourseModel"
       Attending:
         type: boolean
       Begin:
