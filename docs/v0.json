@@ -1580,8 +1580,7 @@
         },
         "UserModel": {
             "required": [
-                "ID",
-                "PrimaryEmail"
+                "ID"
             ],
             "properties": {
                 "ID": {

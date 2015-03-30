@@ -981,7 +981,6 @@ definitions:
   UserModel:
     required:
       - ID
-      - PrimaryEmail
     properties:
       ID:
         type: string
