@@ -1147,8 +1147,7 @@ definitions:
       Sector:
         type: string
       Employer:
-        schema:
-          $ref: "#/definitions/EmployerModel"
+        $ref: "#/definitions/EmployerModel"
       Begin:
         type: string
         format: date
@@ -1158,8 +1157,7 @@ definitions:
       URL:
         type: string
       Reference:
-        schema:
-          $ref: "#/definitions/ReferenceModel"
+        $ref: "#/definitions/ReferenceModel"
   ReviewModel:
     properties:
       Employer:

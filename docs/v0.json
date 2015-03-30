@@ -1832,9 +1832,7 @@
                     "type": "string"
                 },
                 "Employer": {
-                    "schema": {
-                        "$ref": "#/definitions/EmployerModel"
-                    }
+                    "$ref": "#/definitions/EmployerModel"
                 },
                 "Begin": {
                     "type": "string",
@@ -1848,9 +1846,7 @@
                     "type": "string"
                 },
                 "Reference": {
-                    "schema": {
-                        "$ref": "#/definitions/ReferenceModel"
-                    }
+                    "$ref": "#/definitions/ReferenceModel"
                 }
             }
         },
