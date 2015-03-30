@@ -1853,9 +1853,7 @@
         "ReviewModel": {
             "properties": {
                 "Employer": {
-                    "schema": {
-                        "$ref": "#/definitions/EmployerModel"
-                    }
+                    "$ref": "#/definitions/EmployerModel"
                 },
                 "Rating": {
                     "type": "integer"
@@ -2059,9 +2057,7 @@
                     "type": "string"
                 },
                 "Opportunity": {
-                    "schema": {
-                        "$ref": "#/definitions/OpportunityModel"
-                    }
+                    "$ref": "#/definitions/OpportunityModel"
                 },
                 "Status": {
                     "type": "integer"
@@ -2070,9 +2066,7 @@
                     "type": "string"
                 },
                 "Review": {
-                    "schema": {
-                        "$ref": "#/definitions/ReviewModel"
-                    }
+                    "$ref": "#/definitions/ReviewModel"
                 }
             }
         },
