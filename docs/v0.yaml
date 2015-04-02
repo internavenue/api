@@ -1304,6 +1304,8 @@ definitions:
         type: array
         items:
           $ref: "#/definitions/SkillModel"
+      Location:
+        $ref: "#/definitions/LocationModel"
   InternshipResultModel:
     properties:
       ID:
