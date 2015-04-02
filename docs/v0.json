@@ -1997,6 +1997,15 @@
                     "items": {
                         "$ref": "#/definitions/SectorModel"
                     }
+                },
+                "Websites": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/KeyValModel"
+                    }
+                },
+                "Size": {
+                    "type": "integer"
                 }
             }
         },
@@ -2048,6 +2057,18 @@
                 },
                 "ExtraEmail": {
                     "type": "string"
+                },
+                "Tasks": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "Skills": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/SkillModel"
+                    }
                 }
             }
         },

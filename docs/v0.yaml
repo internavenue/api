@@ -1256,6 +1256,12 @@ definitions:
         type: array
         items:
           $ref: "#/definitions/SectorModel"
+      Websites:
+        type: array
+        items:
+          $ref: "#/definitions/KeyValModel"
+      Size:
+        type: integer
   SectorModel:
     properties:
       ID:
@@ -1290,6 +1296,14 @@ definitions:
         type: string
       ExtraEmail:
         type: string
+      Tasks:
+        type: array
+        items:
+          type: string
+      Skills:
+        type: array
+        items:
+          $ref: "#/definitions/SkillModel"
   InternshipResultModel:
     properties:
       ID:
