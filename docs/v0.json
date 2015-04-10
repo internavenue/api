@@ -2072,6 +2072,12 @@
                 },
                 "Location": {
                     "$ref": "#/definitions/LocationModel"
+                },
+                "Sector": {
+                    "$ref": "#/definitions/SectorModel"
+                },
+                "Remuneration": {
+                    "type": "integer"
                 }
             }
         },
