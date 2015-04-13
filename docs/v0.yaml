@@ -1158,6 +1158,8 @@ definitions:
         type: string
       Reference:
         $ref: "#/definitions/ReferenceModel"
+      Description:
+        type: string
   ReviewModel:
     properties:
       Employer:
@@ -1386,12 +1388,15 @@ definitions:
       - ID
       - Code
       - Title
+      - Proficiency
     properties:
       ID:
         type: string
       Code:
         type: string
       Title:
+        type: string
+      Proficiency:
         type: string
   PackageModel:
     required:
